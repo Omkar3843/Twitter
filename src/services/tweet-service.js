@@ -10,10 +10,8 @@ class TweetService {
         const content = data.content;
         const tags = content.match(/#[a-zA-Z0-9_]+/g).map((tag) => tag.substring(1));
         // Above is regex extracts hashtags for # seperated
-        console.log("current tags are", tags);
         const tweet = await this.tweetRepository.create(data);
         const alreadyPrsentTags = await this.hashtagRepository.findByName(tags);
-        console.log("alerady prsent tags are", alreadyPrsentTags);
         let newtags = tags.filter(tag => !alreadyPrsentTags.includes(tag));
         console.log(newtags);
         newtags = newtags.map(tag => {
@@ -21,7 +19,10 @@ class TweetService {
         });
 
         const response = await this.hashtagRepository.bulkcreate(newtags);
-        console.log(response);
+        alreadyPrsentTags.forEach((tag) => {
+            tag.tweets.push(tweet.id);
+            tag.save();
+        });
         // todo create hashtag and add here
         /*
         * const newtags = tags.filter(tag => !alreadyPrsentTags.includes(tag));

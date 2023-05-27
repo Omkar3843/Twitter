@@ -33,6 +33,8 @@ app.listen(4000, async () =>{
     // console.log(response);
 
     let service = new TweetService();
-    const tweet = service.create({content: 'This is #after #processing really #excited , it is going to be #fun'});
+    const tweet = await service.create({
+        content: 'is #tweets working ?'
+    });
     console.log(tweet);
 });
