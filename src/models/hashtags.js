@@ -7,8 +7,10 @@ const hashtagsSchema = new mongoose.Schema({
     },
     tweets: [
         {
+            // multiple tweet id for hastag
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Tweet'
+            // reference is Tweet
         }
     ]
 }, {timestamps: true});
